@@ -660,7 +660,7 @@
     "relativePath": "resources\\gfx\\Square\\whale.png"
   },
   "2e0ebef9-b9f4-4966-a46b-756d47d9d57a": {
-    "asset": 1571985207959,
+    "asset": 1572034666304,
     "meta": 1571978040453,
     "relativePath": "scripts"
   },
@@ -675,8 +675,8 @@
     "relativePath": "scripts\\slots"
   },
   "e75a394f-8f38-4d2d-bf33-dc7acce8f3f4": {
-    "asset": 1571978040458,
-    "meta": 1571978154639,
+    "asset": 1572058372699,
+    "meta": 1572058485428,
     "relativePath": "scripts\\slots\\Machine.ts"
   },
   "91e54cf3-189e-4eb3-aab1-63bde6e3e079": {
@@ -715,8 +715,8 @@
     "relativePath": "sfx\\ui\\mouseclick1.ogg"
   },
   "74622ef5-55d1-4de0-9dfc-8af86ed5f3f5": {
-    "asset": 1571985703844,
-    "meta": 1571985704503,
+    "asset": 1572058321097,
+    "meta": 1572058485427,
     "relativePath": "scripts\\GameManager.ts"
   }
 }
