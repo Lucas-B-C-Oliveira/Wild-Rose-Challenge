@@ -674,11 +674,6 @@
     "meta": 1571978040457,
     "relativePath": "scripts\\slots"
   },
-  "e75a394f-8f38-4d2d-bf33-dc7acce8f3f4": {
-    "asset": 1572058372699,
-    "meta": 1572058485428,
-    "relativePath": "scripts\\slots\\Machine.ts"
-  },
   "91e54cf3-189e-4eb3-aab1-63bde6e3e079": {
     "asset": 1571978040459,
     "meta": 1571978154669,
@@ -715,8 +710,13 @@
     "relativePath": "sfx\\ui\\mouseclick1.ogg"
   },
   "74622ef5-55d1-4de0-9dfc-8af86ed5f3f5": {
-    "asset": 1572058321097,
-    "meta": 1572058485427,
+    "asset": 1572062002925,
+    "meta": 1572062007311,
     "relativePath": "scripts\\GameManager.ts"
+  },
+  "e75a394f-8f38-4d2d-bf33-dc7acce8f3f4": {
+    "asset": 1572062263126,
+    "meta": 1572062264953,
+    "relativePath": "scripts\\slots\\Machine.ts"
   }
 }

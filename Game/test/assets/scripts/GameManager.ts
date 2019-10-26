@@ -8,14 +8,24 @@ export default class GameManager extends cc.Component {
   @property({ type: cc.AudioClip })
   audioClick = null;
 
+  @property(cc.Node)
+  animLine0 = null;
+
+  @property(cc.Node)
+  animLine1 = null;
+
+  @property(cc.Node)
+  animLine2 = null;
+
   private block = false;
 
   private result = null;
 
-  private luck = 0;
+  public luck = 0;
 
   start(): void {
     this.machine.getComponent('Machine').createMachine();
+    this.checkLinesAnim();
   }
 
   update(): void {
@@ -29,6 +39,7 @@ export default class GameManager extends cc.Component {
     cc.audioEngine.playEffect(this.audioClick, false);
 
     if (this.machine.getComponent('Machine').spinning === false) {
+      this.checkLinesAnim();
       this.block = false;
       this.machine.getComponent('Machine').spin();
       this.requestResult();
@@ -36,6 +47,19 @@ export default class GameManager extends cc.Component {
       this.block = true;
       this.machine.getComponent('Machine').lock();
     }
+  }
+
+  checkLinesAnim(): void {
+
+    if( !this.animLine0 && !this.animLine1 && !this.animLine2 ){
+      this.animLine0 = this.node.getChildByName("Line0");
+      this.animLine1 = this.node.getChildByName("Line1");
+      this.animLine2 = this.node.getChildByName("Line2");
+    }
+
+    this.animLine0.active = false;
+    this.animLine1.active = false;
+    this.animLine2.active = false;
   }
 
   async requestResult(): Promise<void> {
@@ -90,6 +114,7 @@ export default class GameManager extends cc.Component {
             [Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)],
             [Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30)], 
             [Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)]  ];
+
 
         }
         else if (this.luck <= 50){

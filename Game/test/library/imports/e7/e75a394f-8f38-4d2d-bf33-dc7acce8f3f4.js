@@ -31,9 +31,11 @@ var Machine = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.button = null;
         _this._reelPrefab = null;
+        _this.gameManager = null;
         _this._numberOfReels = 3;
         _this.reels = [];
         _this.spinning = false;
+        _this.gm = null;
         return _this;
     }
     Object.defineProperty(Machine.prototype, "reelPrefab", {
@@ -64,6 +66,7 @@ var Machine = /** @class */ (function (_super) {
         configurable: true
     });
     Machine.prototype.createMachine = function () {
+        this.gm = this.gameManager.getComponent('GameManager');
         this.node.destroyAllChildren();
         this.reels = [];
         var newReel;
@@ -108,6 +111,29 @@ var Machine = /** @class */ (function (_super) {
             var theReel = this_1.reels[i].getComponent('Reel');
             setTimeout(function () {
                 theReel.readyStop(result[i]);
+                // if(this.gm.animLine0.active == true || this.gm.animline1.active == true || this.gm.animLine2.active == true){
+                //   // Algum AnimLine está ativo, por tanto, não precisa ativar mais
+                // }
+                // else{
+                // }
+                if (_this.gm.luck > 93) {
+                    // 7% of the time all lines should show equal tiles.
+                    _this.gm.animLine0.active = true;
+                    _this.gm.animLine1.active = true;
+                    _this.gm.animLine2.active = true;
+                }
+                else if (_this.gm.luck > 83 && _this.gm.luck <= 93) {
+                    // 10% of the time it should display two lines of equal tiles.
+                    _this.gm.animLine1.active = true;
+                    _this.gm.animLine2.active = true;
+                }
+                else if (_this.gm.luck > 50 && _this.gm.luck <= 83) {
+                    // 33% of the time it should display a single line of equal tiles.
+                    _this.gm.animLine1.active = true;
+                }
+                else if (_this.gm.luck <= 50) {
+                    // 50% of the time it should return this random configuration of tiles.
+                }
             }, spinDelay * 1000);
         };
         var this_1 = this;
@@ -121,6 +147,9 @@ var Machine = /** @class */ (function (_super) {
     __decorate([
         property(cc.Prefab)
     ], Machine.prototype, "_reelPrefab", void 0);
+    __decorate([
+        property(cc.Node)
+    ], Machine.prototype, "gameManager", void 0);
     __decorate([
         property({ type: cc.Prefab })
     ], Machine.prototype, "reelPrefab", null);

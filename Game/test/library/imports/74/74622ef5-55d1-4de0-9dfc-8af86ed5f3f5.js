@@ -65,6 +65,9 @@ var GameManager = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.machine = null;
         _this.audioClick = null;
+        _this.animLine0 = null;
+        _this.animLine1 = null;
+        _this.animLine2 = null;
         _this.block = false;
         _this.result = null;
         _this.luck = 0;
@@ -72,6 +75,7 @@ var GameManager = /** @class */ (function (_super) {
     }
     GameManager.prototype.start = function () {
         this.machine.getComponent('Machine').createMachine();
+        this.checkLinesAnim();
     };
     GameManager.prototype.update = function () {
         if (this.block && this.result != null) {
@@ -82,6 +86,7 @@ var GameManager = /** @class */ (function (_super) {
     GameManager.prototype.click = function () {
         cc.audioEngine.playEffect(this.audioClick, false);
         if (this.machine.getComponent('Machine').spinning === false) {
+            this.checkLinesAnim();
             this.block = false;
             this.machine.getComponent('Machine').spin();
             this.requestResult();
@@ -90,6 +95,16 @@ var GameManager = /** @class */ (function (_super) {
             this.block = true;
             this.machine.getComponent('Machine').lock();
         }
+    };
+    GameManager.prototype.checkLinesAnim = function () {
+        if (!this.animLine0 && !this.animLine1 && !this.animLine2) {
+            this.animLine0 = this.node.getChildByName("Line0");
+            this.animLine1 = this.node.getChildByName("Line1");
+            this.animLine2 = this.node.getChildByName("Line2");
+        }
+        this.animLine0.active = false;
+        this.animLine1.active = false;
+        this.animLine2.active = false;
     };
     GameManager.prototype.requestResult = function () {
         return __awaiter(this, void 0, Promise, function () {
@@ -174,6 +189,15 @@ var GameManager = /** @class */ (function (_super) {
     __decorate([
         property({ type: cc.AudioClip })
     ], GameManager.prototype, "audioClick", void 0);
+    __decorate([
+        property(cc.Node)
+    ], GameManager.prototype, "animLine0", void 0);
+    __decorate([
+        property(cc.Node)
+    ], GameManager.prototype, "animLine1", void 0);
+    __decorate([
+        property(cc.Node)
+    ], GameManager.prototype, "animLine2", void 0);
     GameManager = __decorate([
         ccclass
     ], GameManager);

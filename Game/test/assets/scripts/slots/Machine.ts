@@ -10,6 +10,9 @@ export default class Machine extends cc.Component {
   @property(cc.Prefab)
   public _reelPrefab = null;
 
+  @property(cc.Node)
+  gameManager = null;
+
   @property({ type: cc.Prefab })
   get reelPrefab(): cc.Prefab {
     return this._reelPrefab;
@@ -44,7 +47,10 @@ export default class Machine extends cc.Component {
 
   public spinning = false;
 
+  private gm = null
+
   createMachine(): void {
+    this.gm = this.gameManager.getComponent('GameManager')
     this.node.destroyAllChildren();
     this.reels = [];
 
@@ -97,6 +103,36 @@ export default class Machine extends cc.Component {
 
       setTimeout(() => {
         theReel.readyStop(result[i]);
+        
+        if (this.gm.luck > 93){
+
+          // 7% of the time all lines should show equal tiles.
+          this.gm.animLine0.active = true;
+          this.gm.animLine1.active = true;
+          this.gm.animLine2.active = true;
+
+        }
+        else if (this.gm.luck > 83 && this.gm.luck <= 93){
+
+          // 10% of the time it should display two lines of equal tiles.
+          this.gm.animLine1.active = true;
+          this.gm.animLine2.active = true;
+
+        }
+        else if (this.gm.luck > 50 && this.gm.luck <= 83){
+
+          // 33% of the time it should display a single line of equal tiles.
+          this.gm.animLine1.active = true;
+
+        }
+        else if (this.gm.luck <= 50){
+
+          // 50% of the time it should return this random configuration of tiles.
+
+        }
+
+
+
       }, spinDelay * 1000);
     }
   }
