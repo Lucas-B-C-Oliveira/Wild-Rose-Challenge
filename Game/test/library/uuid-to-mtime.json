@@ -455,8 +455,8 @@
     "relativePath": "gfx\\glow"
   },
   "c1bc28a2-729f-47d8-81bc-cbf91d2e4944": {
-    "asset": 1571978153714,
-    "meta": 1571978153724,
+    "asset": 1572117888868,
+    "meta": 1572117889045,
     "relativePath": "_scenes\\Main.fire"
   },
   "f91bc100-4f9e-4e17-8552-2479cf3f533b": {
@@ -470,8 +470,8 @@
     "relativePath": "prefabs"
   },
   "6fc8688c-db9f-4c20-8b71-e6df9b2f3af8": {
-    "asset": 1571978153750,
-    "meta": 1571978153760,
+    "asset": 1572069580117,
+    "meta": 1572069580164,
     "relativePath": "prefabs\\Reel.prefab"
   },
   "e83cdb8f-68f4-4929-a8d8-986272859cfa": {
@@ -500,8 +500,8 @@
     "relativePath": "resources\\gfx\\Square"
   },
   "a75a6cdf-ea63-4dea-af63-4cc3bf7305ac": {
-    "asset": 1571978153780,
-    "meta": 1571978153787,
+    "asset": 1572063324661,
+    "meta": 1572063324686,
     "relativePath": "prefabs\\Tile.prefab"
   },
   "efd7891f-f545-404e-ac99-116e9175ff4d": {
@@ -674,20 +674,10 @@
     "meta": 1571978040457,
     "relativePath": "scripts\\slots"
   },
-  "91e54cf3-189e-4eb3-aab1-63bde6e3e079": {
-    "asset": 1571978040459,
-    "meta": 1571978154669,
-    "relativePath": "scripts\\slots\\Reel.ts"
-  },
   "93886d01-643a-48c4-b7f3-7fc7ace50fd7": {
     "asset": 1571985208018,
     "meta": 1571978040461,
     "relativePath": "sfx"
-  },
-  "23da8828-3294-4bca-8174-5c3acd08aac6": {
-    "asset": 1571978040460,
-    "meta": 1571978154692,
-    "relativePath": "scripts\\slots\\Tile.ts"
   },
   "dbebd484-0998-4b61-92a8-e5de86f7987d": {
     "asset": 1571985208014,
@@ -709,14 +699,24 @@
     "meta": 1571978154718,
     "relativePath": "sfx\\ui\\mouseclick1.ogg"
   },
-  "74622ef5-55d1-4de0-9dfc-8af86ed5f3f5": {
-    "asset": 1572062002925,
-    "meta": 1572062007311,
-    "relativePath": "scripts\\GameManager.ts"
+  "23da8828-3294-4bca-8174-5c3acd08aac6": {
+    "asset": 1572181152790,
+    "meta": 1572181165511,
+    "relativePath": "scripts\\slots\\Tile.ts"
+  },
+  "91e54cf3-189e-4eb3-aab1-63bde6e3e079": {
+    "asset": 1572184715182,
+    "meta": 1572184727374,
+    "relativePath": "scripts\\slots\\Reel.ts"
   },
   "e75a394f-8f38-4d2d-bf33-dc7acce8f3f4": {
-    "asset": 1572062263126,
-    "meta": 1572062264953,
+    "asset": 1572184985365,
+    "meta": 1572184987166,
     "relativePath": "scripts\\slots\\Machine.ts"
+  },
+  "74622ef5-55d1-4de0-9dfc-8af86ed5f3f5": {
+    "asset": 1572185312625,
+    "meta": 1572185315643,
+    "relativePath": "scripts\\GameManager.ts"
   }
 }

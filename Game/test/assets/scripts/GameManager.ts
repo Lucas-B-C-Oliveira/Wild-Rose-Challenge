@@ -17,11 +17,18 @@ export default class GameManager extends cc.Component {
   @property(cc.Node)
   animLine2 = null;
 
+  @property(cc.Node)
+  TileAnimation = null;
+
   private block = false;
 
   private result = null;
 
   public luck = 0;
+  
+  public randomLine0 = 0
+  public randomLine1 = 0;
+  public randomLine2 = 0;
 
   start(): void {
     this.machine.getComponent('Machine').createMachine();
@@ -72,10 +79,16 @@ export default class GameManager extends cc.Component {
     return new Promise<Array<Array<number>>>(resolve => {
       setTimeout(() => {
 
-        this.luck = Math.random() * 100;
+        this.luck = 83 //Math.random() * 100;
         var r = Math.floor(Math.random() * 30); // r is Random Tiles
         var a = Math.floor(Math.random() * 30); // r is Random Tiles
         var n = Math.floor(Math.random() * 30); // r is Random Tiles
+
+        this.randomLine0 = a; 
+        this.randomLine1 = r;
+        this.randomLine2 = n;
+
+        
 
         if (this.luck > 93){
 
@@ -97,9 +110,9 @@ export default class GameManager extends cc.Component {
 
           slotResult = [ 
             [Math.floor(Math.random() * 30), r, a, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)],
-            [Math.floor(Math.random() * 30), r, a, r, a], 
+            [Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), r, a], 
             [Math.floor(Math.random() * 30), r, a, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)],
-            [Math.floor(Math.random() * 30), r, a, r, a], 
+            [Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), r, a], 
             [Math.floor(Math.random() * 30), r, a, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)]  ];
 
         }
@@ -109,12 +122,58 @@ export default class GameManager extends cc.Component {
           cc.log("33% of the time it should display a single line of equal tiles.");
 
           slotResult = [ 
-            [Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)],
-            [Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30)], 
-            [Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)],
-            [Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30)], 
-            [Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)]  ];
+            [1, 2, 3, 4, 5],
+            [1, 2, 3, 4, 5], 
+            [1, 2, 3, 4, 5],
+            [1, 2, 3, 4, 5], 
+            [1, 2, 3, 4, 5]  ];
 
+            for(let row = 0; row < 5; row += 1){
+
+              for(let column = 0; column < 5; column += 1){
+
+                var auxRandom = Math.floor(Math.random() * 30)
+                var column1Check = (row == 0 && column == 1) || (row == 2 && column == 1) || (row == 4 && column == 1)
+                var column3Check = (row == 1 && column == 3) || (row == 3 && column == 3);
+
+                if(column1Check){
+                  slotResult[row][column] = r;
+
+                }
+
+                if(column3Check){
+                  slotResult[row][column] = r;
+                }
+
+                if(!column1Check && !column3Check && auxRandom == r){
+                  
+                  while(auxRandom == r){
+
+                    auxRandom = Math.floor(Math.random() * 30);
+
+                    if(auxRandom != r){
+                      slotResult[row][column] = auxRandom;
+                      break;
+                    }
+
+                  }
+                }
+                else if(!column1Check && !column3Check && auxRandom != r) {
+
+                  slotResult[row][column] = auxRandom;
+                }
+
+              }
+
+            }
+
+
+          // slotResult = [ 
+          //   [Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)],
+          //   [Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30)], 
+          //   [Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)],
+          //   [Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30)], 
+          //   [Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)]  ];
 
         }
         else if (this.luck <= 50){

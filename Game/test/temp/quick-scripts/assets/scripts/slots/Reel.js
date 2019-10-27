@@ -33,6 +33,8 @@ var Reel = /** @class */ (function (_super) {
         _this.spinDirection = SlotEnum_1.default.Direction.Down;
         _this.tiles = [];
         _this._tilePrefab = null;
+        _this.gameManager = null;
+        _this.tilesAnimation = [];
         _this.result = [];
         _this.stopSpinning = false;
         return _this;
@@ -53,6 +55,10 @@ var Reel = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Reel.prototype.start = function () {
+        // cc.log(this.gameManager)
+        // this.gm = this.gameManager.getComponent('GameManager')
+    };
     Reel.prototype.createReel = function () {
         var newTile;
         for (var i = 0; i < 5; i += 1) {
@@ -83,9 +89,17 @@ var Reel = /** @class */ (function (_super) {
             }
             if (pop != null && pop >= 0) {
                 el.getComponent('Tile').setTile(pop);
+                if (el.getComponent('Tile').getTileIndex() == this.gmRandom1) {
+                    this.tilesAnimation.push(el);
+                    cc.log(this.gmRandom1);
+                    cc.log(el.getComponent('Tile').getTileIndex());
+                    cc.log("  ");
+                    el.getComponent('Tile').setActiveAnim(true);
+                }
             }
             else {
                 el.getComponent('Tile').setRandom();
+                el.getComponent('Tile').setActiveAnim(false);
             }
         }
     };
@@ -157,6 +171,9 @@ var Reel = /** @class */ (function (_super) {
     __decorate([
         property({ type: cc.Prefab })
     ], Reel.prototype, "tilePrefab", null);
+    __decorate([
+        property(cc.Node)
+    ], Reel.prototype, "gameManager", void 0);
     Reel = __decorate([
         ccclass
     ], Reel);

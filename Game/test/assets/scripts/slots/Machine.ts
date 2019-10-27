@@ -49,6 +49,8 @@ export default class Machine extends cc.Component {
 
   private gm = null
 
+  public reelScript
+
   createMachine(): void {
     this.gm = this.gameManager.getComponent('GameManager')
     this.node.destroyAllChildren();
@@ -60,15 +62,36 @@ export default class Machine extends cc.Component {
       this.node.addChild(newReel);
       this.reels[i] = newReel;
 
-      const reelScript = newReel.getComponent('Reel');
-      reelScript.shuffle();
-      reelScript.reelAnchor.getComponent(cc.Layout).enabled = false;
+      this.reelScript = newReel.getComponent('Reel');
+      this.reelScript.shuffle();
+      this.reelScript.reelAnchor.getComponent(cc.Layout).enabled = false;
     }
 
     this.node.getComponent(cc.Widget).updateAlignment();
   }
 
   spin(): void {
+
+    if(this.reels.length > 0){
+      this.reels.forEach((el, index) => {
+
+        if(el != null && el.getComponent('Tile') != null){
+         el.getComponent('Tile').setActiveAnim(false);
+
+        }
+
+
+      
+
+        // element.tilesAnimation.forEach(el => {
+        //   el.getComponent('Tile').setActiveAnim(false);
+        // });
+  
+      });
+    }
+
+
+
     this.spinning = true;
     this.button.getChildByName('Label').getComponent(cc.Label).string = 'STOP';
 
@@ -102,37 +125,9 @@ export default class Machine extends cc.Component {
       const theReel = this.reels[i].getComponent('Reel');
 
       setTimeout(() => {
+        theReel.gmRandom1 = this.gm.randomLine1;
+
         theReel.readyStop(result[i]);
-        
-        if (this.gm.luck > 93){
-
-          // 7% of the time all lines should show equal tiles.
-          this.gm.animLine0.active = true;
-          this.gm.animLine1.active = true;
-          this.gm.animLine2.active = true;
-
-        }
-        else if (this.gm.luck > 83 && this.gm.luck <= 93){
-
-          // 10% of the time it should display two lines of equal tiles.
-          this.gm.animLine1.active = true;
-          this.gm.animLine2.active = true;
-
-        }
-        else if (this.gm.luck > 50 && this.gm.luck <= 83){
-
-          // 33% of the time it should display a single line of equal tiles.
-          this.gm.animLine1.active = true;
-
-        }
-        else if (this.gm.luck <= 50){
-
-          // 50% of the time it should return this random configuration of tiles.
-
-        }
-
-
-
       }, spinDelay * 1000);
     }
   }

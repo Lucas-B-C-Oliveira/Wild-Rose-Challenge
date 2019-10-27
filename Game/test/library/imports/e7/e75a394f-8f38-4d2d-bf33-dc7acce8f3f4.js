@@ -74,13 +74,23 @@ var Machine = /** @class */ (function (_super) {
             newReel = cc.instantiate(this.reelPrefab);
             this.node.addChild(newReel);
             this.reels[i] = newReel;
-            var reelScript = newReel.getComponent('Reel');
-            reelScript.shuffle();
-            reelScript.reelAnchor.getComponent(cc.Layout).enabled = false;
+            this.reelScript = newReel.getComponent('Reel');
+            this.reelScript.shuffle();
+            this.reelScript.reelAnchor.getComponent(cc.Layout).enabled = false;
         }
         this.node.getComponent(cc.Widget).updateAlignment();
     };
     Machine.prototype.spin = function () {
+        if (this.reels.length > 0) {
+            this.reels.forEach(function (el, index) {
+                if (el != null && el.getComponent('Tile') != null) {
+                    el.getComponent('Tile').setActiveAnim(false);
+                }
+                // element.tilesAnimation.forEach(el => {
+                //   el.getComponent('Tile').setActiveAnim(false);
+                // });
+            });
+        }
         this.spinning = true;
         this.button.getChildByName('Label').getComponent(cc.Label).string = 'STOP';
         for (var i = 0; i < this.numberOfReels; i += 1) {
@@ -110,30 +120,8 @@ var Machine = /** @class */ (function (_super) {
             var spinDelay = i < 2 + rngMod ? i / 4 : rngMod * (i - 2) + i / 4;
             var theReel = this_1.reels[i].getComponent('Reel');
             setTimeout(function () {
+                theReel.gmRandom1 = _this.gm.randomLine1;
                 theReel.readyStop(result[i]);
-                // if(this.gm.animLine0.active == true || this.gm.animline1.active == true || this.gm.animLine2.active == true){
-                //   // Algum AnimLine está ativo, por tanto, não precisa ativar mais
-                // }
-                // else{
-                // }
-                if (_this.gm.luck > 93) {
-                    // 7% of the time all lines should show equal tiles.
-                    _this.gm.animLine0.active = true;
-                    _this.gm.animLine1.active = true;
-                    _this.gm.animLine2.active = true;
-                }
-                else if (_this.gm.luck > 83 && _this.gm.luck <= 93) {
-                    // 10% of the time it should display two lines of equal tiles.
-                    _this.gm.animLine1.active = true;
-                    _this.gm.animLine2.active = true;
-                }
-                else if (_this.gm.luck > 50 && _this.gm.luck <= 83) {
-                    // 33% of the time it should display a single line of equal tiles.
-                    _this.gm.animLine1.active = true;
-                }
-                else if (_this.gm.luck <= 50) {
-                    // 50% of the time it should return this random configuration of tiles.
-                }
             }, spinDelay * 1000);
         };
         var this_1 = this;

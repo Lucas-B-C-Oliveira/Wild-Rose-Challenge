@@ -21,6 +21,18 @@ export default class Reel extends cc.Component {
     return this._tilePrefab;
   }
 
+  @property(cc.Node)
+  public gameManager = null;
+
+  public gm;
+  public gmRandom1;
+  public tilesAnimation = []
+
+  start(): void {
+    // cc.log(this.gameManager)
+    // this.gm = this.gameManager.getComponent('GameManager')
+  }
+
   set tilePrefab(newPrefab: cc.Prefab) {
     this._tilePrefab = newPrefab;
     this.reelAnchor.removeAllChildren();
@@ -70,8 +82,21 @@ export default class Reel extends cc.Component {
 
       if (pop != null && pop >= 0) {
         el.getComponent('Tile').setTile(pop);
+
+
+        if(el.getComponent('Tile').getTileIndex() == this.gmRandom1){
+
+          this.tilesAnimation.push(el)
+
+          cc.log(this.gmRandom1)
+          cc.log(el.getComponent('Tile').getTileIndex());
+          cc.log("  ")
+    
+          el.getComponent('Tile').setActiveAnim(true);
+        }
       } else {
         el.getComponent('Tile').setRandom();
+        el.getComponent('Tile').setActiveAnim(false);
       }
     }
   }
@@ -122,6 +147,7 @@ export default class Reel extends cc.Component {
     const move = cc.tween(element).by(0.04, { position: cc.v2(0, 144 * dirModifier) });
     const doChange = cc.tween().call(() => this.changeCallback(element));
     const end = cc.tween().by(0.2, { position: cc.v2(0, 144 * dirModifier) }, { easing: 'bounceOut' });
+
 
     move
       .then(doChange)

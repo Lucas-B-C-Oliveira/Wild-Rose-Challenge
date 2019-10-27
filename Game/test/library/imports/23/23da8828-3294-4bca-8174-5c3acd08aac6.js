@@ -64,8 +64,14 @@ var Tile = /** @class */ (function (_super) {
     function Tile() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.textures = [];
+        _this.glowAnim = null;
+        _this.readyToAnim = false;
+        _this.tileIndex = 0;
         return _this;
     }
+    Tile.prototype.start = function () {
+        this.glowAnim = this.node.getChildByName("glow");
+    };
     Tile.prototype.onLoad = function () {
         return __awaiter(this, void 0, Promise, function () {
             return __generator(this, function (_a) {
@@ -105,8 +111,24 @@ var Tile = /** @class */ (function (_super) {
             });
         });
     };
+    Tile.prototype.setActiveAnim = function (value) {
+        this.glowAnim.active = value;
+    };
+    Tile.prototype.getStateGlowAnim = function () {
+        return this.glowAnim.active;
+    };
+    Tile.prototype.setReadyToAnim = function (value) {
+        this.readyToAnim = value;
+    };
+    Tile.prototype.getReadyToAnim = function () {
+        return this.readyToAnim;
+    };
+    Tile.prototype.getTileIndex = function () {
+        return this.tileIndex;
+    };
     Tile.prototype.setTile = function (index) {
         this.node.getComponent(cc.Sprite).spriteFrame = this.textures[index];
+        this.tileIndex = index;
     };
     Tile.prototype.setRandom = function () {
         var randomIndex = Math.floor(Math.random() * this.textures.length);
@@ -115,6 +137,9 @@ var Tile = /** @class */ (function (_super) {
     __decorate([
         property({ type: [cc.SpriteFrame], visible: true })
     ], Tile.prototype, "textures", void 0);
+    __decorate([
+        property(cc.Node)
+    ], Tile.prototype, "glowAnim", void 0);
     Tile = __decorate([
         ccclass
     ], Tile);
