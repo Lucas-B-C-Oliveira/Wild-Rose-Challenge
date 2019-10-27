@@ -65,10 +65,6 @@ var GameManager = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.machine = null;
         _this.audioClick = null;
-        _this.animLine0 = null;
-        _this.animLine1 = null;
-        _this.animLine2 = null;
-        _this.TileAnimation = null;
         _this.block = false;
         _this.result = null;
         _this.luck = 0;
@@ -79,7 +75,6 @@ var GameManager = /** @class */ (function (_super) {
     }
     GameManager.prototype.start = function () {
         this.machine.getComponent('Machine').createMachine();
-        this.checkLinesAnim();
     };
     GameManager.prototype.update = function () {
         if (this.block && this.result != null) {
@@ -90,7 +85,6 @@ var GameManager = /** @class */ (function (_super) {
     GameManager.prototype.click = function () {
         cc.audioEngine.playEffect(this.audioClick, false);
         if (this.machine.getComponent('Machine').spinning === false) {
-            this.checkLinesAnim();
             this.block = false;
             this.machine.getComponent('Machine').spin();
             this.requestResult();
@@ -99,16 +93,6 @@ var GameManager = /** @class */ (function (_super) {
             this.block = true;
             this.machine.getComponent('Machine').lock();
         }
-    };
-    GameManager.prototype.checkLinesAnim = function () {
-        if (!this.animLine0 && !this.animLine1 && !this.animLine2) {
-            this.animLine0 = this.node.getChildByName("Line0");
-            this.animLine1 = this.node.getChildByName("Line1");
-            this.animLine2 = this.node.getChildByName("Line2");
-        }
-        this.animLine0.active = false;
-        this.animLine1.active = false;
-        this.animLine2.active = false;
     };
     GameManager.prototype.requestResult = function () {
         return __awaiter(this, void 0, Promise, function () {
@@ -131,10 +115,10 @@ var GameManager = /** @class */ (function (_super) {
         var slotResult = [];
         return new Promise(function (resolve) {
             setTimeout(function () {
-                _this.luck = 83; //Math.random() * 100;
+                _this.luck = Math.floor(Math.random() * 100) + 1;
                 var r = Math.floor(Math.random() * 30); // r is Random Tiles
-                var a = Math.floor(Math.random() * 30); // r is Random Tiles
-                var n = Math.floor(Math.random() * 30); // r is Random Tiles
+                var a = Math.floor(Math.random() * 30); // a is Random Tiles
+                var n = Math.floor(Math.random() * 30); // n is Random Tiles
                 _this.randomLine0 = a;
                 _this.randomLine1 = r;
                 _this.randomLine2 = n;
@@ -142,27 +126,52 @@ var GameManager = /** @class */ (function (_super) {
                     // 7% of the time all lines should show equal tiles.
                     cc.log("7% of the time all lines should show equal tiles.");
                     slotResult = [
-                        [n, r, a, n, n],
-                        [n, r, n, r, a],
-                        [n, r, a, n, n],
-                        [n, r, n, r, a],
-                        [n, r, a, n, n]
+                        [1, 2, 3, 4, 5],
+                        [1, 2, 3, 4, 5],
+                        [1, 2, 3, 4, 5],
+                        [1, 2, 3, 4, 5],
+                        [1, 2, 3, 4, 5]
                     ];
+                    for (var row = 0; row < 5; row += 1) { // Lines 
+                        for (var column = 0; column < 5; column += 1) { // Columns
+                            var auxRandom = Math.floor(Math.random() * 30);
+                            var column1Check = (row == 0 && column == 1) || (row == 2 && column == 1) || (row == 4 && column == 1);
+                            var column3Check = (row == 1 && column == 3) || (row == 3 && column == 3);
+                            var column2Check = (row == 0 && column == 2) || (row == 2 && column == 2) || (row == 4 && column == 2);
+                            var column4Check = (row == 1 && column == 4) || (row == 3 && column == 4);
+                            var column0Check = (row == 0 && column == 0) || (row == 2 && column == 0) || (row == 4 && column == 0);
+                            var column2nCheck = (row == 1 && column == 2) || (row == 3 && column == 2);
+                            var allColsFalse = ((!column1Check && !column3Check) && (!column2Check && !column4Check) && (!column0Check && !column2nCheck));
+                            if (column1Check) // Line 1 - Mid
+                                slotResult[row][column] = r;
+                            else if (column3Check) // Line 1 - Mid 
+                                slotResult[row][column] = r;
+                            else if (column2Check) // Line 2 - Bot
+                                slotResult[row][column] = a;
+                            else if (column4Check) // Line 2 - Bot
+                                slotResult[row][column] = a;
+                            else if (column0Check) // Line 0 - Top
+                                slotResult[row][column] = n;
+                            else if (column2nCheck) // Line 0 - Top
+                                slotResult[row][column] = n;
+                            else if ((allColsFalse && auxRandom == r) || (allColsFalse && auxRandom == a) || (allColsFalse && auxRandom == n)) {
+                                while (auxRandom == r || auxRandom == a || auxRandom == n) {
+                                    auxRandom = Math.floor(Math.random() * 30);
+                                    if (auxRandom != r && auxRandom != a && auxRandom != n) {
+                                        slotResult[row][column] = auxRandom;
+                                        break;
+                                    }
+                                }
+                            }
+                            else if (allColsFalse && auxRandom != r && auxRandom != a && auxRandom != n)
+                                slotResult[row][column] = auxRandom;
+                        }
+                    }
                 }
                 else if (_this.luck > 83 && _this.luck <= 93) {
                     // 10% of the time it should display two lines of equal tiles.
                     cc.log("10% of the time it should display two lines of equal tiles.");
-                    slotResult = [
-                        [Math.floor(Math.random() * 30), r, a, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)],
-                        [Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), r, a],
-                        [Math.floor(Math.random() * 30), r, a, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)],
-                        [Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), r, a],
-                        [Math.floor(Math.random() * 30), r, a, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)]
-                    ];
-                }
-                else if (_this.luck > 50 && _this.luck <= 83) {
-                    // 33% of the time it should display a single line of equal tiles.
-                    cc.log("33% of the time it should display a single line of equal tiles.");
+                    _this.randomLine2 = 100;
                     slotResult = [
                         [1, 2, 3, 4, 5],
                         [1, 2, 3, 4, 5],
@@ -170,18 +179,58 @@ var GameManager = /** @class */ (function (_super) {
                         [1, 2, 3, 4, 5],
                         [1, 2, 3, 4, 5]
                     ];
-                    for (var row = 0; row < 5; row += 1) {
-                        for (var column = 0; column < 5; column += 1) {
+                    for (var row = 0; row < 5; row += 1) { // Lines 
+                        for (var column = 0; column < 5; column += 1) { // Columns
                             var auxRandom = Math.floor(Math.random() * 30);
                             var column1Check = (row == 0 && column == 1) || (row == 2 && column == 1) || (row == 4 && column == 1);
                             var column3Check = (row == 1 && column == 3) || (row == 3 && column == 3);
-                            if (column1Check) {
+                            var column2Check = (row == 0 && column == 2) || (row == 2 && column == 2) || (row == 4 && column == 2);
+                            var column4Check = (row == 1 && column == 4) || (row == 3 && column == 4);
+                            var allColsFalse = ((!column1Check && !column3Check) && (!column2Check && !column4Check));
+                            if (column1Check) // Line 1 - Mid
                                 slotResult[row][column] = r;
-                            }
-                            if (column3Check) {
+                            else if (column3Check) // Line 1 - Mid
                                 slotResult[row][column] = r;
+                            else if (column2Check) // Line 2 - Bot
+                                slotResult[row][column] = a;
+                            else if (column4Check) // Line 2 - Bot
+                                slotResult[row][column] = a;
+                            else if ((allColsFalse && auxRandom == r) || (allColsFalse && auxRandom == a)) {
+                                while (auxRandom == r || auxRandom == a) {
+                                    auxRandom = Math.floor(Math.random() * 30);
+                                    if (auxRandom != r && auxRandom != a) {
+                                        slotResult[row][column] = auxRandom;
+                                        break;
+                                    }
+                                }
                             }
-                            if (!column1Check && !column3Check && auxRandom == r) {
+                            else if (allColsFalse && auxRandom != r && auxRandom != a)
+                                slotResult[row][column] = auxRandom;
+                        }
+                    }
+                }
+                else if (_this.luck > 50 && _this.luck <= 83) {
+                    // 33% of the time it should display a single line of equal tiles.
+                    cc.log("33% of the time it should display a single line of equal tiles.");
+                    _this.randomLine0 = 100;
+                    _this.randomLine2 = 100;
+                    slotResult = [
+                        [1, 2, 3, 4, 5],
+                        [1, 2, 3, 4, 5],
+                        [1, 2, 3, 4, 5],
+                        [1, 2, 3, 4, 5],
+                        [1, 2, 3, 4, 5]
+                    ];
+                    for (var row = 0; row < 5; row += 1) { // Lines 
+                        for (var column = 0; column < 5; column += 1) { // Columns
+                            var auxRandom = Math.floor(Math.random() * 30);
+                            var column1Check = (row == 0 && column == 1) || (row == 2 && column == 1) || (row == 4 && column == 1);
+                            var column3Check = (row == 1 && column == 3) || (row == 3 && column == 3);
+                            if (column1Check)
+                                slotResult[row][column] = r;
+                            else if (column3Check)
+                                slotResult[row][column] = r;
+                            else if (!column1Check && !column3Check && auxRandom == r) {
                                 while (auxRandom == r) {
                                     auxRandom = Math.floor(Math.random() * 30);
                                     if (auxRandom != r) {
@@ -190,17 +239,10 @@ var GameManager = /** @class */ (function (_super) {
                                     }
                                 }
                             }
-                            else if (!column1Check && !column3Check && auxRandom != r) {
+                            else if (!column1Check && !column3Check && auxRandom != r)
                                 slotResult[row][column] = auxRandom;
-                            }
                         }
                     }
-                    // slotResult = [ 
-                    //   [Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)],
-                    //   [Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30)], 
-                    //   [Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)],
-                    //   [Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30)], 
-                    //   [Math.floor(Math.random() * 30), r, Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)]  ];
                 }
                 else if (_this.luck <= 50) {
                     // 50% of the time it should return this random configuration of tiles.
@@ -212,6 +254,9 @@ var GameManager = /** @class */ (function (_super) {
                         [Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)],
                         [Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)]
                     ];
+                    _this.randomLine0 = 100;
+                    _this.randomLine1 = 100;
+                    _this.randomLine2 = 100;
                 }
                 resolve(slotResult);
             }, 1000 + 500 * Math.random());
@@ -227,18 +272,6 @@ var GameManager = /** @class */ (function (_super) {
     __decorate([
         property({ type: cc.AudioClip })
     ], GameManager.prototype, "audioClick", void 0);
-    __decorate([
-        property(cc.Node)
-    ], GameManager.prototype, "animLine0", void 0);
-    __decorate([
-        property(cc.Node)
-    ], GameManager.prototype, "animLine1", void 0);
-    __decorate([
-        property(cc.Node)
-    ], GameManager.prototype, "animLine2", void 0);
-    __decorate([
-        property(cc.Node)
-    ], GameManager.prototype, "TileAnimation", void 0);
     GameManager = __decorate([
         ccclass
     ], GameManager);

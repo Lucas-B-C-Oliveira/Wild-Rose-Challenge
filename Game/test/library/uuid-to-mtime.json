@@ -704,19 +704,19 @@
     "meta": 1572181165511,
     "relativePath": "scripts\\slots\\Tile.ts"
   },
-  "91e54cf3-189e-4eb3-aab1-63bde6e3e079": {
-    "asset": 1572184715182,
-    "meta": 1572184727374,
-    "relativePath": "scripts\\slots\\Reel.ts"
+  "74622ef5-55d1-4de0-9dfc-8af86ed5f3f5": {
+    "asset": 1572199671050,
+    "meta": 1572202513266,
+    "relativePath": "scripts\\GameManager.ts"
   },
   "e75a394f-8f38-4d2d-bf33-dc7acce8f3f4": {
-    "asset": 1572184985365,
-    "meta": 1572184987166,
+    "asset": 1572199738013,
+    "meta": 1572202513300,
     "relativePath": "scripts\\slots\\Machine.ts"
   },
-  "74622ef5-55d1-4de0-9dfc-8af86ed5f3f5": {
-    "asset": 1572185312625,
-    "meta": 1572185315643,
-    "relativePath": "scripts\\GameManager.ts"
+  "91e54cf3-189e-4eb3-aab1-63bde6e3e079": {
+    "asset": 1572200087031,
+    "meta": 1572202513323,
+    "relativePath": "scripts\\slots\\Reel.ts"
   }
 }

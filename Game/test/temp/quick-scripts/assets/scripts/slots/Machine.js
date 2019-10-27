@@ -86,9 +86,6 @@ var Machine = /** @class */ (function (_super) {
                 if (el != null && el.getComponent('Tile') != null) {
                     el.getComponent('Tile').setActiveAnim(false);
                 }
-                // element.tilesAnimation.forEach(el => {
-                //   el.getComponent('Tile').setActiveAnim(false);
-                // });
             });
         }
         this.spinning = true;
@@ -120,7 +117,10 @@ var Machine = /** @class */ (function (_super) {
             var spinDelay = i < 2 + rngMod ? i / 4 : rngMod * (i - 2) + i / 4;
             var theReel = this_1.reels[i].getComponent('Reel');
             setTimeout(function () {
-                theReel.gmRandom1 = _this.gm.randomLine1;
+                theReel.gmLuck = _this.gm.luck;
+                theReel.gmRandomLine0 = _this.gm.randomLine0;
+                theReel.gmRandomLine1 = _this.gm.randomLine1;
+                theReel.gmRandomLine2 = _this.gm.randomLine2;
                 theReel.readyStop(result[i]);
             }, spinDelay * 1000);
         };

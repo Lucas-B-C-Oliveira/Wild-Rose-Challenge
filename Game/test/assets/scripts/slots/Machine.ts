@@ -79,18 +79,9 @@ export default class Machine extends cc.Component {
          el.getComponent('Tile').setActiveAnim(false);
 
         }
-
-
-      
-
-        // element.tilesAnimation.forEach(el => {
-        //   el.getComponent('Tile').setActiveAnim(false);
-        // });
   
       });
     }
-
-
 
     this.spinning = true;
     this.button.getChildByName('Label').getComponent(cc.Label).string = 'STOP';
@@ -125,7 +116,10 @@ export default class Machine extends cc.Component {
       const theReel = this.reels[i].getComponent('Reel');
 
       setTimeout(() => {
-        theReel.gmRandom1 = this.gm.randomLine1;
+        theReel.gmLuck = this.gm.luck
+        theReel.gmRandomLine0 = this.gm.randomLine0;
+        theReel.gmRandomLine1 = this.gm.randomLine1;
+        theReel.gmRandomLine2 = this.gm.randomLine2;
 
         theReel.readyStop(result[i]);
       }, spinDelay * 1000);

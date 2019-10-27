@@ -33,10 +33,12 @@ var Reel = /** @class */ (function (_super) {
         _this.spinDirection = SlotEnum_1.default.Direction.Down;
         _this.tiles = [];
         _this._tilePrefab = null;
-        _this.gameManager = null;
-        _this.tilesAnimation = [];
         _this.result = [];
+        _this.tilesAnimation = [];
         _this.stopSpinning = false;
+        _this.gmRandomLine0 = 0;
+        _this.gmRandomLine1 = 0;
+        _this.gmRandomLine2 = 0;
         return _this;
     }
     Object.defineProperty(Reel.prototype, "tilePrefab", {
@@ -55,10 +57,6 @@ var Reel = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Reel.prototype.start = function () {
-        // cc.log(this.gameManager)
-        // this.gm = this.gameManager.getComponent('GameManager')
-    };
     Reel.prototype.createReel = function () {
         var newTile;
         for (var i = 0; i < 5; i += 1) {
@@ -89,17 +87,16 @@ var Reel = /** @class */ (function (_super) {
             }
             if (pop != null && pop >= 0) {
                 el.getComponent('Tile').setTile(pop);
-                if (el.getComponent('Tile').getTileIndex() == this.gmRandom1) {
+                var tileIndexCheck = el.getComponent('Tile').getTileIndex(); // Index of especific tile
+                // Check to enable  tiles animations
+                if (tileIndexCheck == this.gmRandomLine0 || tileIndexCheck == this.gmRandomLine1 || tileIndexCheck == this.gmRandomLine2) {
                     this.tilesAnimation.push(el);
-                    cc.log(this.gmRandom1);
-                    cc.log(el.getComponent('Tile').getTileIndex());
-                    cc.log("  ");
-                    el.getComponent('Tile').setActiveAnim(true);
+                    el.getComponent('Tile').setActiveAnim(true); // Enable tiles animations
                 }
             }
             else {
                 el.getComponent('Tile').setRandom();
-                el.getComponent('Tile').setActiveAnim(false);
+                el.getComponent('Tile').setActiveAnim(false); // Disable all Animations
             }
         }
     };
@@ -171,9 +168,6 @@ var Reel = /** @class */ (function (_super) {
     __decorate([
         property({ type: cc.Prefab })
     ], Reel.prototype, "tilePrefab", null);
-    __decorate([
-        property(cc.Node)
-    ], Reel.prototype, "gameManager", void 0);
     Reel = __decorate([
         ccclass
     ], Reel);

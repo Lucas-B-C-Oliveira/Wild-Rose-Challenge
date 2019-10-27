@@ -21,18 +21,6 @@ export default class Reel extends cc.Component {
     return this._tilePrefab;
   }
 
-  @property(cc.Node)
-  public gameManager = null;
-
-  public gm;
-  public gmRandom1;
-  public tilesAnimation = []
-
-  start(): void {
-    // cc.log(this.gameManager)
-    // this.gm = this.gameManager.getComponent('GameManager')
-  }
-
   set tilePrefab(newPrefab: cc.Prefab) {
     this._tilePrefab = newPrefab;
     this.reelAnchor.removeAllChildren();
@@ -46,7 +34,16 @@ export default class Reel extends cc.Component {
 
   private result: Array<number> = [];
 
+  private tilesAnimation = []
+
   public stopSpinning = false;
+
+  public gmLuck; // Game Manager Luck
+
+  public gmRandomLine0 = 0;
+  public gmRandomLine1 = 0;
+  public gmRandomLine2 = 0;
+  
 
   createReel(): void {
     let newTile: cc.Node;
@@ -83,20 +80,19 @@ export default class Reel extends cc.Component {
       if (pop != null && pop >= 0) {
         el.getComponent('Tile').setTile(pop);
 
+        var tileIndexCheck = el.getComponent('Tile').getTileIndex(); // Index of especific tile
 
-        if(el.getComponent('Tile').getTileIndex() == this.gmRandom1){
+        // Check to enable  tiles animations
+        if(tileIndexCheck == this.gmRandomLine0 || tileIndexCheck == this.gmRandomLine1 || tileIndexCheck == this.gmRandomLine2){
 
           this.tilesAnimation.push(el)
-
-          cc.log(this.gmRandom1)
-          cc.log(el.getComponent('Tile').getTileIndex());
-          cc.log("  ")
-    
-          el.getComponent('Tile').setActiveAnim(true);
+          el.getComponent('Tile').setActiveAnim(true); // Enable tiles animations
         }
-      } else {
+
+      } 
+      else {
         el.getComponent('Tile').setRandom();
-        el.getComponent('Tile').setActiveAnim(false);
+        el.getComponent('Tile').setActiveAnim(false); // Disable all Animations
       }
     }
   }
